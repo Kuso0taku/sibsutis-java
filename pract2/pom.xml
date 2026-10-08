@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>coursehub</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- общая модель: src/Course.java, задачи берут ее через import src.Course -->
+        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+        <!-- код задания лежит рядом с тестом: task9/CourseTest.java и т.д. -->
+        <testSourceDirectory>${project.basedir}/${task.dir}</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- тест не должен зависеть от порядка запуска -->
+                    <runOrder>random</runOrder>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- mvn test -> task9, mvn -Ptask8 test -> task8, mvn -Ptask10 test -> task10 -->
+        <profile>
+            <id>task9</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <task.dir>task9</task.dir>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>task8</id>
+            <properties>
+                <task.dir>task8</task.dir>
+            </properties>
+        </profile>
+    </profiles>
+</project>

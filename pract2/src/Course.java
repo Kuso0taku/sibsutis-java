@@ -1,33 +1,38 @@
 package src;
 
 public class Course {
+    public static final int MIN_DURATION_HOURS = 1;
+    public static final int MAX_DURATION_HOURS = 100;
+
     private long id;
     private String title;
     private int durationHours;
     private int completedHours;
 
-    Course(long id, String title, int durationHours, int completedHours) {
+    public Course(long id, String title, int durationHours, int completedHours) {
         if (id <= 0) {
           throw new IllegalArgumentException("id must be > 0");
         }
         this.id = id;
         
         if (!title.isBlank() && !title.isEmpty()) this.title = title.trim();
+        else throw new IllegalArgumentException("title must not be blank");
 
-        if (durationHours >= 1 && durationHours <= 100) this.durationHours = durationHours;
-        
-        if (completedHours < durationHours && completedHours >= 0) this.completedHours = completedHours;
+        // границы проверяются тут, а не "молча" игнорируются:
+        // иначе курс на 0 часов или на 500 часов выглядел бы как обычный
+        checkDuration(durationHours);
+        this.durationHours = durationHours;
+
+        if (completedHours >= 0 && completedHours <= durationHours) {
+            this.completedHours = completedHours;
+        } else {
+            throw new IllegalArgumentException(
+                "completedHours must be in [0, " + durationHours + "]");
+        }
     }
 
     public Course(long id, String title, int durationHours) {
-        if (id > 0) this.id = id;
-        else System.out.println("ERR");
-        
-        if (!title.isBlank() && !title.isEmpty()) this.title = title.trim();
-
-        if (durationHours >= 1 && durationHours <= 300) this.durationHours = durationHours;
-        
-        this.completedHours = 0;
+        this(id, title, durationHours, 0);
     }
 
     public long id() {
@@ -48,6 +53,15 @@ public class Course {
     public boolean isCompleted() {
         return remainingHours() == 0;
     }
+
+    private static void checkDuration(int durationHours) {
+        if (durationHours < MIN_DURATION_HOURS || durationHours > MAX_DURATION_HOURS) {
+            throw new IllegalArgumentException(
+                "durationHours must be in ["
+                    + MIN_DURATION_HOURS + ", " + MAX_DURATION_HOURS + "]");
+        }
+    }
+
     public void completeHours(int hours) {
         if (remainingHours() < hours) {
             System.out.println("ERR");
