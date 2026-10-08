@@ -34,6 +34,11 @@
                 <configuration>
                     <!-- тест не должен зависеть от порядка запуска -->
                     <runOrder>random</runOrder>
+                    <!-- контраст хрупких тестов: он падает по замыслу,
+                         в прогон не входит. Запуск: -Dsurefire.excludes= -->
+                    <excludes>
+                        <exclude>**/Broken*Test.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
@@ -69,6 +74,13 @@
             <id>task11</id>
             <properties>
                 <task.dir>task11</task.dir>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>task12</id>
+            <properties>
+                <task.dir>task12</task.dir>
             </properties>
         </profile>
     </profiles>
