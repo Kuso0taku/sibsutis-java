@@ -63,11 +63,18 @@ public class Course {
     }
 
     public void completeHours(int hours) {
-        if (remainingHours() < hours) {
-            System.out.println("ERR");
-        } else {
-            this.completedHours += hours;
+        // неверный аргумент - ошибка вызывающего (programming error)
+        if (hours <= 0) {
+            throw new IllegalArgumentException("hours must be > 0");
         }
+        // слишком много часов - неверное состояние объекта.
+        // Проверка до изменения: при отказе completedHours остается прежним.
+        if (remainingHours() < hours) {
+            throw new IllegalStateException(
+                "cannot complete " + hours + " h, only "
+                    + remainingHours() + " h left");
+        }
+        this.completedHours += hours;
     }
 
     public static void main(String[] args) {
