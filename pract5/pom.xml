@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>coursehub-collections</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- общая модель: src/Course.java и value-объекты, задачи берут их через import src.* -->
+        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+        <!-- код задания лежит рядом с тестом: task1/... и т.д. -->
+        <testSourceDirectory>${project.basedir}/${task.dir}</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- тест не должен зависеть от порядка запуска -->
+                    <runOrder>random</runOrder>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- mvn test -> task1, mvn -Ptask2 test -> task2, ... -->
+        <profile>
+            <id>task1</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <task.dir>task1</task.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>task2</id>
+            <properties><task.dir>task2</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task3</id>
+            <properties><task.dir>task3</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task4</id>
+            <properties><task.dir>task4</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task5</id>
+            <properties><task.dir>task5</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task6</id>
+            <properties><task.dir>task6</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task7</id>
+            <properties><task.dir>task7</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task8</id>
+            <properties><task.dir>task8</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task9</id>
+            <properties><task.dir>task9</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task10</id>
+            <properties><task.dir>task10</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task11</id>
+            <properties><task.dir>task11</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task12</id>
+            <properties><task.dir>task12</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task13</id>
+            <properties><task.dir>task13</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task14</id>
+            <properties><task.dir>task14</task.dir></properties>
+        </profile>
+        <profile>
+            <id>task15</id>
+            <properties><task.dir>task15</task.dir></properties>
+        </profile>
+    </profiles>
+</project>
