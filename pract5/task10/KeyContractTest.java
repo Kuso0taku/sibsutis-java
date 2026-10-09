@@ -36,7 +36,7 @@ class KeyContractTest {
     // Act + Assert: equals по id => одинаковый hashCode
     assertEquals(a, b);
     assertEquals(a.hashCode(), b.hashCode());
-    assertEquals(1, new HashSet<>(Set.of(a, b)).size());
+    assertEquals(1, new HashSet<>(java.util.List.of(a, b)).size());
   }
 
   @Test
