@@ -72,4 +72,48 @@ public class PrerequisiteGraph<V> {
     }
     return List.copyOf(result);
   }
+
+  // Диагностический путь цикла: three-color DFS. Возвращает [v1, v2, ..., v1],
+  // при отсутствии цикла - пусто. Путь детерминирован порядком вставки.
+  public java.util.Optional<List<V>> findCycle() {
+    Map<V, Integer> color = new HashMap<>(); // 0 white, 1 gray, 2 black
+    for (V v : insertionOrder) color.put(v, 0);
+
+    for (V start : insertionOrder) {
+      if (color.get(start) != 0) continue;
+
+      Deque<V> stack = new ArrayDeque<>();
+      Deque<java.util.Iterator<V>> iterators = new ArrayDeque<>();
+      stack.push(start);
+      color.put(start, 1);
+      iterators.push(prereqOf.getOrDefault(start, Set.of()).iterator());
+
+      while (!stack.isEmpty()) {
+        V v = stack.peek();
+        java.util.Iterator<V> it = iterators.peek();
+        if (it.hasNext()) {
+          V next = it.next();
+          int nextColor = color.getOrDefault(next, 0);
+          if (nextColor == 1) {
+            List<V> path = new java.util.ArrayList<>(stack);
+            int from = path.indexOf(next);
+            List<V> cycle = new java.util.ArrayList<>(
+                path.subList(from, path.size()));
+            cycle.add(next);
+            return java.util.Optional.of(cycle);
+          }
+          if (nextColor == 0) {
+            color.put(next, 1);
+            stack.push(next);
+            iterators.push(prereqOf.getOrDefault(next, Set.of()).iterator());
+          }
+        } else {
+          color.put(v, 2);
+          stack.pop();
+          iterators.pop();
+        }
+      }
+    }
+    return java.util.Optional.empty();
+  }
 }
