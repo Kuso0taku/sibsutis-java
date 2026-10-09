@@ -84,4 +84,32 @@ class LruCacheTest {
     assertEquals(0, cache.size());
     assertFalse(cache.containsKey("a"));
   }
+
+  @Test
+  void nullKeysAndValues_areRejected() {
+    // Arrange
+    LruCache<String, Integer> cache = new LruCache<>(2);
+
+    // Act + Assert: null-политика явная - ни ключ, ни значение не null
+    assertThrows(NullPointerException.class, () -> cache.put(null, 1));
+    assertThrows(NullPointerException.class, () -> cache.put("a", null));
+    assertThrows(NullPointerException.class, () -> cache.get(null));
+  }
+
+  @Test
+  void invalidCapacity_isRejected() {
+    // Act + Assert
+    assertThrows(IllegalArgumentException.class, () -> new LruCache<Integer, Integer>(0));
+    assertThrows(IllegalArgumentException.class, () -> new LruCache<Integer, Integer>(-1));
+  }
+
+  @Test
+  void keysThatAreEqualButNotSame_areFound() {
+    // Arrange: ключи равны по equals, но это разные объекты
+    LruCache<String, Integer> cache = new LruCache<>(1);
+    cache.put(new String("a"), 1);
+
+    // Act + Assert: стабильность ключей - поиск по равенству, не по ссылке
+    assertEquals(1, cache.get(new String("a")));
+  }
 }
