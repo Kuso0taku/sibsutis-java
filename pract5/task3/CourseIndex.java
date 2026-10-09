@@ -4,6 +4,7 @@ import src.CourseId;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 // Индекс CourseId -> Course. LinkedHashMap выбран, чтобы findAll()
 // отдавал курсы в порядке добавления.
@@ -32,6 +33,14 @@ public class CourseIndex {
 
   public boolean contains(CourseId id) {
     return byId.containsKey(id);
+  }
+
+  // computeIfAbsent: найти или создать одним действием.
+  // Фабрика вызывается только при промахе, поэтому дорогое создание
+  // объекта не выполняется зря.
+  public Course findOrAdd(CourseId id, Supplier<Course> factory) {
+    if (id == null) throw new NullPointerException("id must not be null");
+    return byId.computeIfAbsent(id, key -> factory.get());
   }
 
   public int size() {
