@@ -95,7 +95,10 @@ public class PrerequisiteGraph<V> {
           V next = it.next();
           int nextColor = color.getOrDefault(next, 0);
           if (nextColor == 1) {
+            // стек лежит вершиной вверх: верх - текущая, низ - корень.
+            // Разворачиваем в путь "корень -> текущая" и вырезаем цикл.
             List<V> path = new java.util.ArrayList<>(stack);
+            java.util.Collections.reverse(path);
             int from = path.indexOf(next);
             List<V> cycle = new java.util.ArrayList<>(
                 path.subList(from, path.size()));
