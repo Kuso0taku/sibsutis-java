@@ -9,9 +9,12 @@ public class ConcurrentModificationDemo {
   public static void main(String[] args) {
     List<String> codes = new ArrayList<>(List.of("JAVA101", "SQL301", "KOTLIN201"));
 
+    // Удаляем первый элемент: после сдвига итератор делает еще один next()
+    // и замечает изменение modCount. (Удаление последнего просмотренного
+    // элемента цикл мог бы просто завершить без проверки - CME не гарантирован.)
     try {
       for (String code : codes) {
-        if (code.equals("SQL301")) {
+        if (code.equals("JAVA101")) {
           codes.remove(code); // ломает итератор
         }
       }
