@@ -49,6 +49,18 @@ public class InvertedIndex {
     return Set.copyOf(result);
   }
 
+  // объединение нескольких тегов: курс подходит, если есть ХОТЯ БЫ один
+  public Set<CourseId> coursesWithAny(Set<Tag> tags) {
+    Set<CourseId> result = new HashSet<>();
+    for (Tag tag : tags) {
+      Set<CourseId> ids = index.get(tag);
+      if (ids != null) {
+        result.addAll(ids);
+      }
+    }
+    return Set.copyOf(result);
+  }
+
   public int tagCount() {
     return index.size();
   }
