@@ -24,4 +24,9 @@ public final class WebinarSchedule {
   public ZonedDateTime plusCalendarDays(int days, ZoneId zone) {
     return start.atZone(zone).plus(Period.ofDays(days));
   }
+
+  // Duration: ровные 24 часа от момента — зона не участвует
+  public Instant plusExactHours(long hours) {
+    return start.plus(java.time.Duration.ofHours(hours));
+  }
 }
