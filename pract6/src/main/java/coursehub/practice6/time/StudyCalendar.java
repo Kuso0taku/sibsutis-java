@@ -33,4 +33,14 @@ public final class StudyCalendar {
     }
     return starts;
   }
+
+  // последний учебный день: конец последней недели, сдвинутый на будний день
+  public LocalDate lastStudyDay(int totalWeeks) {
+    LocalDate end = start.plusWeeks(totalWeeks).minusDays(1);
+    while (end.getDayOfWeek() == java.time.DayOfWeek.SATURDAY
+        || end.getDayOfWeek() == java.time.DayOfWeek.SUNDAY) {
+      end = end.minusDays(1);
+    }
+    return end;
+  }
 }
