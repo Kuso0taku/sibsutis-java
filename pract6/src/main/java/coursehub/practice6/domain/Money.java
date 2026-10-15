@@ -51,4 +51,39 @@ public final class Money {
       throw new IllegalArgumentException("currency mismatch: " + currency + " vs " + other.currency);
     }
   }
+
+  // процент от суммы: деление с явным режимом округления
+  public Money percentage(BigDecimal percent) {
+    BigDecimal result = amount
+        .multiply(percent)
+        .divide(BigDecimal.valueOf(100), currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
+    return new Money(result, currency);
+  }
+
+  // делим сумму между позициями так, чтобы итог совпал точно
+  public Money[] allocate(int... weights) {
+    int totalWeight = 0;
+    for (int weight : weights) {
+      totalWeight += weight;
+    }
+    Money[] parts = new Money[weights.length];
+    BigDecimal distributed = BigDecimal.ZERO.setScale(currency.getDefaultFractionDigits());
+    for (int i = 0; i < weights.length; i++) {
+      BigDecimal share = amount
+          .multiply(BigDecimal.valueOf(weights[i]))
+          .divide(BigDecimal.valueOf(totalWeight), currency.getDefaultFractionDigits(), RoundingMode.DOWN);
+      parts[i] = new Money(share, currency);
+      distributed = distributed.add(share);
+    }
+    BigDecimal remainder = amount.subtract(distributed);
+    BigDecimal cent = BigDecimal.ONE.movePointLeft(currency.getDefaultFractionDigits());
+    int index = 0;
+    while (remainder.signum() != 0) {
+      BigDecimal step = remainder.signum() > 0 ? cent : cent.negate();
+      parts[index] = new Money(parts[index].amount.add(step), currency);
+      remainder = remainder.subtract(step);
+      index = (index + 1) % parts.length;
+    }
+    return parts;
+  }
 }
