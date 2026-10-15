@@ -19,4 +19,13 @@ public final class RandomSampleService {
   public static RandomGenerator seeded(long seed) {
     return RandomGeneratorFactory.of(ALGORITHM).create(seed);
   }
+
+  // выборка в полуинтервале [origin, bound)
+  public static int[] sample(RandomGenerator rng, int count, int origin, int bound) {
+    int[] values = new int[count];
+    for (int i = 0; i < count; i++) {
+      values[i] = rng.nextInt(origin, bound);
+    }
+    return values;
+  }
 }
