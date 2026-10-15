@@ -15,4 +15,13 @@ public final class ReportBuilder {
     }
     return report;
   }
+
+  // StringBuilder держит изменяемый буфер и не копирует накопленное
+  public static String withBuilder(List<String> lines) {
+    StringBuilder sb = new StringBuilder();
+    for (String line : lines) {
+      sb.append(line).append('\n');
+    }
+    return sb.toString();
+  }
 }
