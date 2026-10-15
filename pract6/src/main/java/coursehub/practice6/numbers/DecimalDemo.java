@@ -15,5 +15,12 @@ public class DecimalDemo {
     System.out.println("new BigDecimal(0.1): " + fromDouble);
     System.out.println("BigDecimal.valueOf(0.1): " + valueOf);
     System.out.println("new BigDecimal(\"0.1\"): " + fromString);
+
+    // valueOf и строковый конструктор дают одно и то же значение
+    System.out.println("valueOf.equals(string): " + valueOf.equals(fromString));
+    // double-конструктор даёт более длинное «хвостатое» число
+    System.out.println("fromDouble.equals(string): " + fromDouble.equals(fromString));
+    System.out.println("fromDouble.stripTrailingZeros scale: " + fromDouble.stripTrailingZeros().scale());
+    System.out.println("fromString.stripTrailingZeros scale: " + fromString.stripTrailingZeros().scale());
   }
 }
