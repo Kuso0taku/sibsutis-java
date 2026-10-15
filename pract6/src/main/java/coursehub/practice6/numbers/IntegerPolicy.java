@@ -9,4 +9,9 @@ public final class IntegerPolicy {
   public static int plusOneUnsafe(Integer value) {
     return value + 1;
   }
+
+  // == сравнивает ссылки; для Integer вне кэша (-128..127) это разные объекты
+  public static boolean sameByReference(Integer left, Integer right) {
+    return left == right;
+  }
 }
