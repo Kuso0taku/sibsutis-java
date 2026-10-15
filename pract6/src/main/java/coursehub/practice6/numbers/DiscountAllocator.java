@@ -27,6 +27,16 @@ public final class DiscountAllocator {
       shares[i] = share;
       distributed = distributed.add(share);
     }
+
+    // остаток копеек раскидываем по позициям по кругу — порядок детерминирован
+    BigDecimal remainder = amount.setScale(SCALE, mode).subtract(distributed);
+    int index = 0;
+    while (remainder.signum() != 0) {
+      BigDecimal step = remainder.signum() > 0 ? CENT : CENT.negate();
+      shares[index] = shares[index].add(step);
+      remainder = remainder.subtract(step);
+      index = (index + 1) % shares.length;
+    }
     return shares;
   }
 }
