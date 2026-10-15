@@ -34,4 +34,13 @@ public final class WebinarSchedule {
   public ZonedDateTime displayIn(ZoneId zone) {
     return start.atZone(zone);
   }
+
+  // показываем момент сразу в нескольких зонах, не меняя сам момент
+  public java.util.List<String> displayAll(ZoneId... zones) {
+    java.util.List<String> lines = new java.util.ArrayList<>();
+    for (ZoneId zone : zones) {
+      lines.add(zone + " -> " + displayIn(zone).toLocalDateTime());
+    }
+    return lines;
+  }
 }
