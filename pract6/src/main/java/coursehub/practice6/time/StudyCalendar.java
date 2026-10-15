@@ -21,4 +21,16 @@ public final class StudyCalendar {
   public boolean isLeapYear() {
     return Year.isLeap(start.getYear());
   }
+
+  // даты начала модулей: первый модуль со start, дальше с шагом в неделях
+  public java.util.List<LocalDate> moduleStarts(int modules, int moduleWeeks) {
+    java.util.List<LocalDate> starts = new java.util.ArrayList<>();
+    LocalDate date = start;
+    for (int i = 0; i < modules; i++) {
+      starts.add(date);
+      // plusWeeks не меняет date, поэтому результат присваиваем обратно
+      date = date.plusWeeks(moduleWeeks);
+    }
+    return starts;
+  }
 }
