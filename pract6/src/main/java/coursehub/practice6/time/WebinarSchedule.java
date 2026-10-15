@@ -29,4 +29,9 @@ public final class WebinarSchedule {
   public Instant plusExactHours(long hours) {
     return start.plus(java.time.Duration.ofHours(hours));
   }
+
+  // один и тот же Instant, показанный в конкретной зоне
+  public ZonedDateTime displayIn(ZoneId zone) {
+    return start.atZone(zone);
+  }
 }
