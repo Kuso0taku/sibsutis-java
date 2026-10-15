@@ -14,4 +14,14 @@ public final class IntegerPolicy {
   public static boolean sameByReference(Integer left, Integer right) {
     return left == right;
   }
+
+  // явный контракт: null заменяется на 0
+  public static int plusOne(Integer value) {
+    return value == null ? 0 : value + 1;
+  }
+
+  // содержательное равенство не зависит от кэша wrapper-объектов
+  public static boolean sameByValue(Integer left, Integer right) {
+    return java.util.Objects.equals(left, right);
+  }
 }
