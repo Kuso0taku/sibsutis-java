@@ -13,5 +13,17 @@ public class StringIdentityDemo {
     String c = new String("JAVA-101");
     System.out.println("literal == new String: " + (a == c));
     System.out.println("literal.equals(new String): " + a.equals(c));
+
+    // compile-time конкатенация литералов сворачивается компилятором
+    String d = "JAVA" + "-101";
+    System.out.println("literal == compile-time concat: " + (a == d));
+
+    // runtime конкатенация даёт новый объект
+    String prefix = "JAVA";
+    String e = prefix + "-101";
+    System.out.println("literal == runtime concat: " + (a == e));
+
+    // intern возвращает каноническую ссылку из pool
+    System.out.println("literal == interned: " + (a == e.intern()));
   }
 }
