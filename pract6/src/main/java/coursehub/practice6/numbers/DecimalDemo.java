@@ -22,5 +22,12 @@ public class DecimalDemo {
     System.out.println("fromDouble.equals(string): " + fromDouble.equals(fromString));
     System.out.println("fromDouble.stripTrailingZeros scale: " + fromDouble.stripTrailingZeros().scale());
     System.out.println("fromString.stripTrailingZeros scale: " + fromString.stripTrailingZeros().scale());
+
+    // стоимость трёх курсов: деньги считаем в BigDecimal, не в double
+    BigDecimal java = new BigDecimal("3000.00");
+    BigDecimal go = BigDecimal.valueOf(1500.50);
+    BigDecimal sql = new BigDecimal("999.99");
+    BigDecimal total = java.add(go).add(sql);
+    System.out.println("three courses total: " + total);
   }
 }
