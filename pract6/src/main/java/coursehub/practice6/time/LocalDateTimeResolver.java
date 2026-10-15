@@ -10,12 +10,12 @@ public final class LocalDateTimeResolver {
   }
 
   // в «пропущенном» интервале atZone сдвигает время вперёд на величину скачка
-  public ZonedDateTime resolveGapForward(LocalDateTime local, ZoneId zone) {
+  public static ZonedDateTime resolveGapForward(LocalDateTime local, ZoneId zone) {
     return local.atZone(zone);
   }
 
   // строгий режим: если после разрешения время не совпало — такого времени нет
-  public ZonedDateTime resolveStrict(LocalDateTime local, ZoneId zone) {
+  public static ZonedDateTime resolveStrict(LocalDateTime local, ZoneId zone) {
     ZonedDateTime resolved = local.atZone(zone);
     if (!resolved.toLocalDateTime().equals(local)) {
       throw new InvalidLocalTimeException(local, zone);
@@ -24,7 +24,7 @@ public final class LocalDateTimeResolver {
   }
 
   // при «повторе» local.atZone берёт первый offset; этот метод — второй
-  public ZonedDateTime laterOffsetAtOverlap(LocalDateTime local, ZoneId zone) {
+  public static ZonedDateTime laterOffsetAtOverlap(LocalDateTime local, ZoneId zone) {
     return local.atZone(zone).withLaterOffsetAtOverlap();
   }
 }
