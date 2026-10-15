@@ -86,4 +86,26 @@ public final class Money {
     }
     return parts;
   }
+
+  // содержательное равенство: сумма и валюта, без учёта масштаба записи
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Money other)) {
+      return false;
+    }
+    return amount.compareTo(other.amount) == 0 && currency.equals(other.currency);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(amount.stripTrailingZeros(), currency);
+  }
+
+  @Override
+  public String toString() {
+    return amount + " " + currency.getCurrencyCode();
+  }
 }
